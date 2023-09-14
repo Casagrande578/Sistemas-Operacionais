@@ -4,32 +4,33 @@
 #include <time.h>
 #include <ctype.h>
 
-int includes(int value, int *array, int size)
+void findIndexOfAux(char *str, char value, int *solucao, int *solucoes, int *index)
 {
-    for (int i = 0; i < size; i++)
+    if(*index == strlen(str))
     {
-        if (array[i] == value)
-        {
-            return 0;
-        }
+        return;
     }
-}
-
-int findIndexOfAux(char *str, char value, int *solucao, int *solucoes, int *index)
-{
-    if (str[*index] == value && includes(*index, solucao, solucao))
+    if (str[*index] == value )
     {
-        solucao[*solucoes] = *index;
-        solucoes++;
+            solucao[*solucoes] = *index;
+            *solucoes = *solucoes + 1;
     }
     int nextIndex = *index + 1;
     findIndexOfAux(str, value, solucao, solucoes, &nextIndex);
 }
 
-int findIndexOf(char *str, char value, int *solucao, int *solucoes)
+void findIndexOf(char *str, char value, int *solucao, int *solucoes)
 {
     int index = 0;
-    findIndexOfAux(str, value, solucao, *solucoes, &index);
+    findIndexOfAux(str, value, solucao, solucoes, &index);
+    return;
+}
+
+void showSolution(int *solucao, int solucoes){
+    for(int i=0; i<solucoes; i++){
+        printf("index: %d\n",solucao[i]);
+    }
+    return;
 }
 
 int main()
@@ -43,7 +44,9 @@ int main()
     scanf("%s", str);
 
     printf("Insira o valor buscado: \n");
-    scanf("%c", &value);
+    scanf(" %c", &value);
 
     findIndexOf(str, value, solucao, &solucoes);
+
+    showSolution(solucao,solucoes);
 }
